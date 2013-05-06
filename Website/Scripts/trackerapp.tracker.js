@@ -19,6 +19,7 @@ function DashboardCtrl($scope) {
     $scope.selectedTask = '';
     $scope.registrationHours = 0;
     $scope.registrationText = '';
+    $scope.filteredTasks = [];
 
     $scope.previousDate = function () {
         $scope.selectedDate.setDate($scope.selectedDate.getDate() - 1);
@@ -112,10 +113,10 @@ function DashboardCtrl($scope) {
                     $('#query').focus();
 
                     // Insert registration
-                    var activeNode = $scope.tasks[$scope.selectedIndex - 2];
+                    var activeNode = $scope.filteredTasks[$scope.selectedIndex - 2];
                     console.log(activeNode.Name);
 
-                    $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours, message: $scope.registrationText, taskId: activeNode.Id }, function (data) {
+                    $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',','.'), message: $scope.registrationText, taskId: activeNode.Id }, function (data) {
                         $scope.getRegistrations();
                     });
                 }

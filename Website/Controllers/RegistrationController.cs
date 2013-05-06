@@ -24,7 +24,7 @@ namespace TrackerApp.Website.Controllers
             unit.Description = message;
             unit.EndDateTime = date.Value.AddHours(hours);
             unit.EndDateTimeSpecified = true;
-            unit.Duration = System.Xml.XmlConvert.ToString(TimeSpan.FromHours(2));
+            unit.Duration = System.Xml.XmlConvert.ToString(TimeSpan.FromHours(hours));
             var response = SessionHelper.Instance.ProjectManagementClient.InsertWork(new[] { unit }, 99, SessionHelper.Instance.ProjectManagementToken);
 
             if (response.ResponseState == TimelogProjectManagement.ExecutionStatus.Success)

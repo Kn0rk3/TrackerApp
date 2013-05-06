@@ -41,7 +41,7 @@
             <th class="gridCol-04">Task</th>
             <th></th>
         </tr>
-        <tr ng-repeat="item in tasks | filter:query | limitTo: 10">
+        <tr ng-repeat="item in filteredTasks = (tasks | filter:query | limitTo: 20)">
             <td></td>
             <td><span class="gridCol-02" title="{{item.ProjectName}}">{{item.ProjectName}}</span></td>
             <td><span class="gridCol-04" title="{{item.Name}}">{{item.Name}}</span></td>
