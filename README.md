@@ -1,8 +1,13 @@
-TrackerApp
- for TimeLog Project
+TrackerApp for TimeLog Project
 ==========
 
 This project is used to explore the possibilities of the TimeLog Project API and share the code for others who want to integrate with TimeLog Project.
+
+The project makes use of:
+- jQuery
+- AngularJS
+- ASP.NET MVC 4
+- HTML5
 
 This repository is administrered by Søren Øxenhave, Solution Architect at [TimeLog A/S](http://www.timelog.dk).
 
