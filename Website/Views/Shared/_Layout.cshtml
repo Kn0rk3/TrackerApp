@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>    
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.MetaDescription">
+    <meta name="viewport" content="width=device-width">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="wrapper">
+        <div class="gridCol-08 topbox full corners">
+            <div class="container">
+                <h1>TrackerApp for TimeLog Project</h1>
+                @if (User.Identity.IsAuthenticated) {
+                <p class="posRight">@Html.ActionLink("Sign " + TrackerApp.Website.Models.SessionHelper.Instance.FirstName + " out", "SignOut", "Account")</p>
+                }
+            </div>
+        </div>
+        <div class="gridCol-08 full box corners" id="boxwrapper">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </div>
+        <div class="gridCol-08 full box corners">
+            <div class="container">
+                This app is used for demo purposes. Read more about how to get the source code and how it's build on 
+                <a href="#">Building a time tracking app with HTML5, jQuery and angularjs on top of TimeLog Project</a>.
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var root = '@Url.Content("~/")';
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
