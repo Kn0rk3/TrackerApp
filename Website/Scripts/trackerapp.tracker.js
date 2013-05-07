@@ -10,6 +10,7 @@
 }
 
 function DashboardCtrl($scope) {
+    // ¤¤¤ Property definitions ¤¤¤
     $scope.tasks = [];
     $scope.registrations = [];
     $scope.query = '';
@@ -21,20 +22,23 @@ function DashboardCtrl($scope) {
     $scope.registrationText = '';
     $scope.filteredTasks = [];
 
-    $scope.previousDate = function () {
+    // ¤¤¤ Method definitions ¤¤¤
+    $scope.previousDate = function () { // Step the date one day back
         $scope.selectedDate.setDate($scope.selectedDate.getDate() - 1);
         $scope.getRegistrations();
     };
 
-    $scope.nextDate = function () {
+    $scope.nextDate = function () { // Step the date one day forward
         $scope.selectedDate.setDate($scope.selectedDate.getDate() + 1);
         $scope.getRegistrations();
     };
 
     $scope.getTasks = function () {
 
+        // Fetch the list of tasks from the web service
         $.getJSON(root + 'Task/Get', {}, function (data) {
             $scope.$apply(function (scope) {
+                // Apply the result to the scope and trigger the filter change
                 scope.tasks = data.Data;
                 scope.filterChange();
             });
@@ -45,41 +49,49 @@ function DashboardCtrl($scope) {
 
     $scope.getRegistrations = function () {
 
+        // Fetch the list of registrations from the web service
         $.getJSON(root + 'Registration/Get', { start: dateToYMD($scope.selectedDate) }, function (data) {
             $scope.$apply(function (scope) {
+                // Apply the result to the scope
                 scope.registrations = data.Data;
 
+                // Fallback text if no registrations
                 if (scope.registrations.length == 0) {
                     scope.registrations = [{ 'ProjectName': 'No registrations', 'Hours': 0 }];
                 }
 
+                // Calculate the total hours
                 scope.registrationsTotal = 0;
                 for (dat in scope.registrations) {
                     scope.registrationsTotal = scope.registrationsTotal + scope.registrations[dat].Hours;
                 }
             });
-
         });
-
     };
 
     $scope.filterChange = function () {
+        // When the filter changes, reset the selection to the first result
         $scope.selectedIndex = 2;
         setTimeout(function () {
+            // Wait sligthly before updating the selection
             $scope.updateSelection();
         }, 100);
     }
 
     $scope.updateSelection = function () {
+        // Reset the selection class from all results
         $('#tasks tr').removeClass('active');
-        $('#tasks tr td:last-child').html('');
+
+        // Find the active note and highlight
         var activeNode = $('#tasks tr:nth-child(' + $scope.selectedIndex + ')');
         activeNode.addClass('active');
 
+        // Reposition the window scroll position
         if (activeNode.position() != undefined) {
             $(document).scrollTop(activeNode.position().top - 50);
         }
 
+        // Hide the registration band to make sure it is not visible
         $('#registrationBand').hide();
         $('#query').focus();
     }

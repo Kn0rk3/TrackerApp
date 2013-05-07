@@ -9,6 +9,7 @@ namespace TrackerApp.Website.Controllers
     {
         public ActionResult SignOn()
         {
+            // Fetch data about the previous logon
             ViewBag.Url = Request.Cookies.Get("TimeTrackr.Settings.Url") != null ? Request.Cookies.Get("TimeTrackr.Settings.Url").Value : "https://app.timelog.dk/local";
             ViewBag.Initials = Request.Cookies.Get("TimeTrackr.Settings.Initials") != null ? Request.Cookies.Get("TimeTrackr.Settings.Initials").Value : string.Empty;
 
