@@ -96,6 +96,19 @@ function DashboardCtrl($scope) {
         $('#query').focus();
     }
 
+    $scope.insertRegistration = function () {
+        $('#registrationBand').hide();
+        $('#query').focus();
+
+        // Insert registration
+        var activeNode = $scope.filteredTasks[$scope.selectedIndex - 2];
+        console.log(activeNode.Name);
+
+        $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function (data) {
+            $scope.getRegistrations();
+        });
+    }
+
     // Initialize
     $('#registrationBand').hide();
     $scope.getTasks();
@@ -108,10 +121,14 @@ function DashboardCtrl($scope) {
         if (key.keyCode === 40 && $scope.selectedIndex < itemCount) {
             // ARROW UP
             $scope.selectedIndex = $scope.selectedIndex + 1; $scope.updateSelection();
+            $scope.registrationHours = 0;
+            $scope.registrationText = '';
         }
         else if (key.keyCode === 38 && $scope.selectedIndex > 2) {
             // ARROW DOWN
             $scope.selectedIndex = $scope.selectedIndex - 1; $scope.updateSelection();
+            $scope.registrationHours = 0;
+            $scope.registrationText = '';
         }
         else if (key.keyCode === 13) {
             // ENTER
@@ -121,16 +138,7 @@ function DashboardCtrl($scope) {
                     $('#registrationText').focus();
                     $('#registrationText').select();
                 } else if ($('#registrationText').is(':focus')) {
-                    $('#registrationBand').hide();
-                    $('#query').focus();
-
-                    // Insert registration
-                    var activeNode = $scope.filteredTasks[$scope.selectedIndex - 2];
-                    console.log(activeNode.Name);
-
-                    $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',','.'), message: $scope.registrationText, taskId: activeNode.Id }, function (data) {
-                        $scope.getRegistrations();
-                    });
+                    $scope.insertRegistration();
                 }
 
             } else {

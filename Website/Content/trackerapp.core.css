@@ -13,7 +13,7 @@ input, select, textarea { font-family: Verdana, Arial, Sans-Serif; }
    Layout
    ==========================================================================
 #wrapper { position: absolute; width: 800px; left: 50%; margin-left: -400px; }*/
-#wrapper { margin-left: 50px; width: 800px; }
+#wrapper { position: absolute; width: 1280px; left: 50%; margin-left: -640px; }
 #top { padding: 0 0 11px 0; }
 
 /* ==========================================================================
@@ -32,6 +32,10 @@ input, select, textarea { font-family: Verdana, Arial, Sans-Serif; }
 .gridCol-10 {width: 784px;}
 .gridCol-11 {width: 864px;}
 .gridCol-12 {width: 944px;}
+.gridCol-13 {width:1024px;}
+.gridCol-14 {width:1104px;}
+.gridCol-15 {width:1184px;}
+.gridCol-16 {width:1264px;}
 .gridCol-01.full {width: 80px;}
 .gridCol-02.full {width: 160px;}
 .gridCol-03.full {width: 240px;}
@@ -44,6 +48,10 @@ input, select, textarea { font-family: Verdana, Arial, Sans-Serif; }
 .gridCol-10.full {width: 800px;}
 .gridCol-11.full {width: 880px;}
 .gridCol-12.full {width: 960px;}
+.gridCol-13.full {width:1040px;}
+.gridCol-14.full {width:1120px;}
+.gridCol-15.full {width:1200px;}
+.gridCol-16.full {width:1280px;}
 
 .center { text-align: center; }
 .hidden { display: none; }
@@ -160,5 +168,8 @@ tfoot { border-top: 1px solid #8cbf26;}
    ========================================================================== */
 
 @media screen and (max-width: 800px) {
-
+	#wrapper { width: 100%; left: auto; margin-left: 0; }
+	.gridCol-08, .gridCol-09, .gridCol-10, .gridCol-11, .gridCol-12, .gridCol-13, .gridCol-14, .gridCol-15, .gridCol-16 { width: 100%; }
+	.gridCol-07.full, .gridCol-09.full, .gridCol-10.full, .gridCol-11.full, .gridCol-12.full, .gridCol-13.full, .gridCol-14.full, .gridCol-15.full, .gridCol-16.full { width: 100%; }
+    .gridCol-08.posLeft { float: none; }
 }

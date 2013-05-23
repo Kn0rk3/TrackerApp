@@ -3,20 +3,24 @@
 }
 
 <div ng-controller="SignOnCtrl">
-    <h1>Welcome!</h1>
+    <div class="gridCol-12 box full corners">
+        <div class="container">
 
-    @using (Html.BeginForm()) {
-    <fieldset>
-        <legend>Sign on to start using the TrackerApp for TimeLog Project</legend>
-        <div class="label"><label for="Url">TimeLog Project url:</label></div>
-        <div class="field">@Html.TextBox("Url", (string)ViewBag.Url)</div>
-        <div class="label"><label for="Initials">Initials:</label></div>
-        <div class="field">@Html.TextBox("Initials", (string)ViewBag.Initials)</div>
-        <div class="label"><label for="Password">Password:</label></div>
-        <div class="field">@Html.Password("Password")</div>
-        <div class="submit"><input type="submit" value="Sign on" /></div>
-        <div class="error">@Html.ValidationMessage("Initials")</div>
-    </fieldset>
-    }
+            <h1>Welcome!</h1>
+
+            @using (Html.BeginForm()) {
+            <fieldset>
+                <legend>Sign on to start using the TrackerApp for TimeLog Project</legend>
+                <div class="label"><label for="Url">TimeLog Project url:</label></div>
+                <div class="field">@Html.TextBox("Url", (string)ViewBag.Url)</div>
+                <div class="label"><label for="Initials">Initials:</label></div>
+                <div class="field">@Html.TextBox("Initials", (string)ViewBag.Initials)</div>
+                <div class="label"><label for="Password">Password:</label></div>
+                <div class="field">@Html.Password("Password")</div>
+                <div class="submit"><input type="submit" value="Sign on" /></div>
+                <div class="error">@Html.ValidationMessage("Initials")</div>
+            </fieldset>
+            }
+        </div>
+    </div>
 </div>
-
