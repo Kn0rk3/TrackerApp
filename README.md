@@ -3,6 +3,8 @@ TrackerApp for TimeLog Project
 
 This project is used to explore the possibilities of the TimeLog Project API and share the code for others who want to integrate with TimeLog Project.
 
+Read more in the blog post [Building a time tracking app with HTML5, jQuery and angularjs on top of TimeLog Project](http://www.oexenhave.dk/blog/2013/building-a-time-tracking-app-with-html5,-jquery-and-angularjs-on-top-of-timelog-project/).
+
 The project makes use of:
 - jQuery
 - AngularJS
