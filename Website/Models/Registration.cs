@@ -16,5 +16,7 @@ namespace TrackerApp.Website.Models
         public double Hours { get; set; }
 
         public double Date { get; set; }
+
+        public string Comment { get; set; }
     }
 }

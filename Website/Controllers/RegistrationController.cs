@@ -61,6 +61,40 @@ namespace TrackerApp.Website.Controllers
         }
 
         /// <summary>
+        /// Deletes a time registration
+        /// </summary>
+        /// <param name="registrationId"></param>
+        /// <returns></returns>
+        public ActionResult Delete(string registrationId)
+        {
+            // Prepare the envelope with a faulty state
+            var result = new JsonEnvelope<bool> { Success = false, Data = false, Message = "No delete" };
+
+            // Execute the delete request
+            var response = SessionHelper.Instance.ProjectManagementClient.DeleteWork(new[] { registrationId }, 0, SessionHelper.Instance.ProjectManagementToken);
+
+            // Check if the response was correct
+            if (response.ResponseState == TimelogProjectManagement.ExecutionStatus.Success)
+            {
+                // Yes, recreate the envelope
+                result = new JsonEnvelope<bool>
+                {
+                    Success = true,
+                    Message = string.Empty
+                };
+            }
+            else
+            {
+                // No, take the first error message
+                result.Message = response.Messages.FirstOrDefault().Message;
+                result.Success = false;
+            }
+
+            // Return the data as JSON
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        /// <summary>
         /// Gets a list of registrations based on the currently authenticated user
         /// </summary>
         /// <param name="start">Period start date (optional)</param>
@@ -105,7 +139,8 @@ namespace TrackerApp.Website.Controllers
                         TaskId = t.Details.TaskHeader.ID,
                         TaskName = t.Details.TaskHeader.FullName,
                         ProjectId = t.Details.ProjectHeader.ID,
-                        ProjectName = t.Details.ProjectHeader.Name
+                        ProjectName = t.Details.ProjectHeader.Name,
+                        Comment = t.Description
                     }),
                     Message = string.Empty
                 };

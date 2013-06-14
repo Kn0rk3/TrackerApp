@@ -136,7 +136,7 @@ fieldset select { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: 25
 table { width: 100%; margin: 16px 0; font-size: 0.8em; }
 th { padding: 2px 5px; border-right: 1px solid #ccc; vertical-align: top; text-align: left; border-bottom: 1px solid #000; }
 td { padding: 2px 5px; border-right: 1px solid #ccc; vertical-align: top; }
-td span { -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; display: block; height: 1.3em; white-space: nowrap; }
+td span { -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; display: block;padding-top: 2px; height: 1.3em; white-space: nowrap; }
 td:last-child, th:last-child { border-right: none; }
 tfoot { border-top: 1px solid #8cbf26;}
 .active { background-color: #ddd; }
@@ -171,5 +171,10 @@ tfoot { border-top: 1px solid #8cbf26;}
 	#wrapper { width: 100%; left: auto; margin-left: 0; }
 	.gridCol-08, .gridCol-09, .gridCol-10, .gridCol-11, .gridCol-12, .gridCol-13, .gridCol-14, .gridCol-15, .gridCol-16 { width: 100%; }
 	.gridCol-07.full, .gridCol-09.full, .gridCol-10.full, .gridCol-11.full, .gridCol-12.full, .gridCol-13.full, .gridCol-14.full, .gridCol-15.full, .gridCol-16.full { width: 100%; }
-    .gridCol-08.posLeft { float: none; }
+	.gridCol-08.posLeft { float: none; }
+
+    button { height: 48px;min-width: 48px; }
+    td { vertical-align: middle;}
+    input { padding: 5px 0; }
+    .contentband label { height: 48px; margin-top: 15px; }
 }

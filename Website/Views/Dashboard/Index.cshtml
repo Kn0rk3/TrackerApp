@@ -12,21 +12,27 @@
                 <tr>
                     <th class="gridCol-01a">Date</th>
                     <th class="gridCol-02">Project</th>
-                    <th class="gridCol-04">Task</th>
-                    <th>Hours</th>
+                    <th class="gridCol-02">Task</th>
+                    <th class="gridCol-01">Comment</th>
+                    <th class="gridCol-01">Hours</th>
+                    <th></th>
                 </tr>
                 <tr ng-repeat="item in registrations">
                     <td><span class="gridCol-01a" title="{{item.Date | date:'dd-MM-yyyy'}}">{{item.Date | date:'dd-MM-yyyy'}}</span></td>
                     <td><span class="gridCol-02" title="{{item.ProjectName}}">{{item.ProjectName}}</span></td>
-                    <td><span class="gridCol-04" title="{{item.TaskName}}">{{item.TaskName}}</span></td>
+                    <td><span class="gridCol-02" title="{{item.TaskName}}">{{item.TaskName}}</span></td>
+                    <td><span class="gridCol-01" title="{{item.Comment}}">{{item.Comment}}</span></td>
                     <td>{{item.Hours | number:2}}</td>
+                    <td><button ng-show="item.TaskName.length > 0" data-id="{{item.Id}}" ng-click="selectRegistrationClick($event)">Delete</button></td>
                 </tr>
                 <tfoot>
                     <tr>
                         <td></td>
                         <td>Total</td>
                         <td></td>
+                        <td></td>
                         <td>{{registrationsTotal | number:2}}</td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
@@ -40,23 +46,21 @@
             <h2>Tasks</h2>
             <p>Search: <input type="text" id="query" ng-change="filterChange()" ng-model="query" /></p>
             <div class="contentband" id="registrationBand">
-                <label class="overflow gridCol-04 posLeft" title="{{selectedTask}}">{{selectedTask}}</label>: 
+                <label class="overflow gridCol-03 posLeft" title="{{selectedTask}}">{{selectedTask}}</label>: 
                 <input type="text" ng-model="registrationHours" id="registrationHours" class="gridCol-01" /> hours - 
                 <input type="text" ng-model="registrationText" id="registrationText" class="gridCol-02" />
                 <button ng-click="insertRegistration()">Save</button>
             </div>
             <table id="tasks">
                 <tr>
-                    <th class="gridCol-01a">Favorite</th>
                     <th class="gridCol-02">Project</th>
-                    <th class="gridCol-04">Task</th>
+                    <th class="gridCol-05">Task</th>
                     <th></th>
                 </tr>
                 <tr ng-repeat="item in filteredTasks = (tasks | filter:query | limitTo: 20)">
-                    <td></td>
                     <td><span class="gridCol-02" title="{{item.ProjectName}}">{{item.ProjectName}}</span></td>
-                    <td><span class="gridCol-04" title="{{item.Name}}">{{item.Name}}</span></td>
-                    <td></td>
+                    <td><span class="gridCol-05" title="{{item.Name}}">{{item.Name}}</span></td>
+                    <td><button ng-click="selectTaskClick($event)">Add</button></td>
                 </tr>
             </table>
 

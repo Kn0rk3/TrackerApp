@@ -78,7 +78,7 @@ function DashboardCtrl($scope) {
         }, 100);
     }
 
-    $scope.updateSelection = function () {
+    $scope.updateSelection = function() {
         // Reset the selection class from all results
         $('#tasks tr').removeClass('active');
 
@@ -88,15 +88,15 @@ function DashboardCtrl($scope) {
 
         // Reposition the window scroll position
         if (activeNode.position() != undefined) {
-            $(document).scrollTop(activeNode.position().top - 50);
+            $(document).scrollTop(activeNode.position().top - 80);
         }
 
         // Hide the registration band to make sure it is not visible
         $('#registrationBand').hide();
         $('#query').focus();
-    }
+    };
 
-    $scope.insertRegistration = function () {
+    $scope.insertRegistration = function() {
         $('#registrationBand').hide();
         $('#query').focus();
 
@@ -104,10 +104,43 @@ function DashboardCtrl($scope) {
         var activeNode = $scope.filteredTasks[$scope.selectedIndex - 2];
         console.log(activeNode.Name);
 
-        $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function (data) {
+        $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function(data) {
             $scope.getRegistrations();
         });
-    }
+    };
+
+    $scope.selectTask = function () {
+        
+        $('#registrationBand').show();
+        $scope.registrationHours = 0;
+        $scope.registrationText = '';
+
+        $('#registrationHours').focus();
+        $('#registrationHours').select();
+    };
+
+    $scope.selectTaskClick = function(evt) {
+
+        var tdIndex = $(evt.target).closest('tr').prevAll().length + 1;
+        var activeNode = $('#tasks tr:nth-child(' + tdIndex + ')');
+        var lastChild = activeNode.children('td:nth-child(2)').children('span');
+
+        $scope.selectedIndex = tdIndex;
+        $scope.updateSelection();
+        $scope.selectedTask = lastChild.html();
+
+        $scope.selectTask();
+    };
+    
+    $scope.selectRegistrationClick = function(evt) {
+        
+        var id = $(evt.target).attr('data-id');
+        
+        $.getJSON(root + 'Registration/Delete', { registrationId: id }, function (data) {
+            $scope.getRegistrations();
+        });
+
+    };
 
     // Initialize
     $('#registrationBand').hide();
@@ -142,16 +175,14 @@ function DashboardCtrl($scope) {
                 }
 
             } else {
-
+                
                 $scope.$apply(function (scope) {
                     var activeNode = $('#tasks tr:nth-child(' + $scope.selectedIndex + ')');
-                    var lastChild = activeNode.children('td:nth-child(3)').children('span');
+                    var lastChild = activeNode.children('td:nth-child(2)').children('span');
                     scope.selectedTask = lastChild.html();
+                    scope.selectTask();
                 });
-
-                $('#registrationBand').show();
-                $('#registrationHours').focus();
-                $('#registrationHours').select();
+                
             }
         }
         else if (key.keyCode == 27) {
