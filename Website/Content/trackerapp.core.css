@@ -4,7 +4,7 @@
 	background-color: #EEE;
 	background-repeat: repeat-x;
 	font-family: Verdana, Arial, Tahoma;
-	font-size: 0.8em;
+	font-size: 0.7em;
 }
 
 input, select, textarea { font-family: Verdana, Arial, Sans-Serif; }
@@ -116,6 +116,28 @@ ul.list li a { text-decoration: none; display: block; }
 ul.list li a.inline { display: inline; }
 ul.list li.action { background-color: transparent; border-bottom: none; }
 
+.listCell { display: block; float: left; padding: 3px 3px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+
+ul.listOutline { list-style: none;margin: 0;padding: 0;}
+ul.listOutline li { list-style: none;margin: 0;padding: 0;}
+ul.listOutline li.header { font-weight: bold;border-bottom: 1px solid #000000;}
+ul.listOutline li.total { font-weight: bold; border-top: 1px solid #8cbf26;}
+ul.listOutline li a { border-bottom: 1px solid #eee;display: block;color: #000; }
+ul.listOutline span { border-left: 1px solid #ccc; }
+ul.listOutline span:first-child { border-left: none; }
+ul.listOutline span a { display: inline; }
+
+ul#taskList span.project { width: 200px; }
+ul#taskList span.task { width: 300px; }
+ul#taskList span.action { width: 50px; color: #8cbf26; }
+
+ul#registrationList span.date { width: 85px; }
+ul#registrationList span.project { width: 148px; }
+ul#registrationList span.task { width: 148px; }
+ul#registrationList span.comment { width: 68px; }
+ul#registrationList span.hours { width: 68px; }
+ul#registrationList span.action { width: 50px; color: #8cbf26; }
+
 /* #FORM
 ----------------------------------*/
 fieldset { margin-bottom: 10px; border: none; }
@@ -133,7 +155,7 @@ fieldset input[type=radio] { font-family: Verdana, Arial, Tahoma; font-size: 1em
 fieldset textarea { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: 250px; height: 100px; }
 fieldset select { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: 250px; }
 
-table { width: 100%; margin: 16px 0; font-size: 0.8em; }
+table { width: 100%; margin: 16px 0; }
 th { padding: 2px 5px; border-right: 1px solid #ccc; vertical-align: top; text-align: left; border-bottom: 1px solid #000; }
 td { padding: 2px 5px; border-right: 1px solid #ccc; vertical-align: top; }
 td span { -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; display: block;padding-top: 2px; height: 1.3em; white-space: nowrap; }
@@ -173,8 +195,14 @@ tfoot { border-top: 1px solid #8cbf26;}
 	.gridCol-07.full, .gridCol-09.full, .gridCol-10.full, .gridCol-11.full, .gridCol-12.full, .gridCol-13.full, .gridCol-14.full, .gridCol-15.full, .gridCol-16.full { width: 100%; }
 	.gridCol-08.posLeft { float: none; }
 
-    button { height: 48px;min-width: 48px; }
-    td { vertical-align: middle;}
-    input { padding: 5px 0; }
-    .contentband label { height: 48px; margin-top: 15px; }
+	button { height: 38px;min-width: 48px; }
+	input { padding: 5px 0; }
+    .contentband { text-align: left;}
+    .contentband span { display: block;width: 100%;}
+    .contentband span label { float: none; }
+    #registrationHours { width: 144px; }
+    #registrationText { width: 144px; }
+    .contentband button { width: 149px; }
+
+	ul.listOutline span { border-left: none; }
 }

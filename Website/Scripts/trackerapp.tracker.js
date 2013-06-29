@@ -80,15 +80,15 @@ function DashboardCtrl($scope) {
 
     $scope.updateSelection = function() {
         // Reset the selection class from all results
-        $('#tasks tr').removeClass('active');
+        $('#taskList li').removeClass('active');
 
         // Find the active note and highlight
-        var activeNode = $('#tasks tr:nth-child(' + $scope.selectedIndex + ')');
+        var activeNode = $('#taskList li:nth-child(' + $scope.selectedIndex + ')');
         activeNode.addClass('active');
 
         // Reposition the window scroll position
         if (activeNode.position() != undefined) {
-            $(document).scrollTop(activeNode.position().top - 80);
+            $(document).scrollTop(activeNode.position().top - 90);
         }
 
         // Hide the registration band to make sure it is not visible
@@ -102,7 +102,6 @@ function DashboardCtrl($scope) {
 
         // Insert registration
         var activeNode = $scope.filteredTasks[$scope.selectedIndex - 2];
-        console.log(activeNode.Name);
 
         $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function(data) {
             $scope.getRegistrations();
@@ -117,14 +116,17 @@ function DashboardCtrl($scope) {
 
         $('#registrationHours').focus();
         $('#registrationHours').select();
+        
+        // Reposition the window scroll position
+        $(document).scrollTop($('#registrationBand').position().top - 10);
     };
 
     $scope.selectTaskClick = function(evt) {
 
-        var tdIndex = $(evt.target).closest('tr').prevAll().length + 1;
-        var activeNode = $('#tasks tr:nth-child(' + tdIndex + ')');
-        var lastChild = activeNode.children('td:nth-child(2)').children('span');
-
+        var tdIndex = $(evt.target).closest('li').prevAll().length + 1;
+        var activeNode = $('#taskList li:nth-child(' + tdIndex + ')');
+        var lastChild = activeNode.children().first().children('.task');
+        
         $scope.selectedIndex = tdIndex;
         $scope.updateSelection();
         $scope.selectedTask = lastChild.html();
@@ -150,7 +152,7 @@ function DashboardCtrl($scope) {
 
     $(document).bind('keydown', function (key) {
 
-        var itemCount = $('#tasks tr').length;
+        var itemCount = $('#taskList li').length;
         if (key.keyCode === 40 && $scope.selectedIndex < itemCount) {
             // ARROW UP
             $scope.selectedIndex = $scope.selectedIndex + 1; $scope.updateSelection();
@@ -177,8 +179,8 @@ function DashboardCtrl($scope) {
             } else {
                 
                 $scope.$apply(function (scope) {
-                    var activeNode = $('#tasks tr:nth-child(' + $scope.selectedIndex + ')');
-                    var lastChild = activeNode.children('td:nth-child(2)').children('span');
+                    var activeNode = $('#taskList li:nth-child(' + $scope.selectedIndex + ')');
+                    var lastChild = activeNode.children().first().children('.task');
                     scope.selectedTask = lastChild.html();
                     scope.selectTask();
                 });
