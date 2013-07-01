@@ -87,9 +87,9 @@ function DashboardCtrl($scope) {
         activeNode.addClass('active');
 
         // Reposition the window scroll position
-        if (activeNode.position() != undefined) {
-            $(document).scrollTop(activeNode.position().top - 90);
-        }
+        //if (activeNode.position() != undefined) {
+        //    $(document).scrollTop(activeNode.position().top - 90);
+        //}
 
         // Hide the registration band to make sure it is not visible
         $('#registrationBand').hide();
@@ -97,14 +97,22 @@ function DashboardCtrl($scope) {
     };
 
     $scope.insertRegistration = function() {
-        $('#registrationBand').hide();
-        $('#query').focus();
+
+        $('#buttonSave').html('Saving...');
+        $('#buttonSave').disabled = true;
 
         // Insert registration
         var activeNode = $scope.filteredTasks[$scope.selectedIndex - 2];
 
         $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function(data) {
             $scope.getRegistrations();
+
+            setTimeout(function () {
+                $('#registrationBand').hide();
+                $('#query').focus();
+                $('#buttonSave').html('Save');
+                $('#buttonSave').disabled = false;
+            }, 250);
         });
     };
 
@@ -145,10 +153,17 @@ function DashboardCtrl($scope) {
     };
 
     // Initialize
+    $.ajaxSetup({ cache: false });
     $('#registrationBand').hide();
     $scope.getTasks();
     $scope.getRegistrations();
     $('#query').focus();
+
+    $(':input').keypress(function (e) {
+        var code = e.keyCode || e.which;
+        if (code == 13)
+            return false;
+    });
 
     $(document).bind('keydown', function (key) {
 
@@ -183,9 +198,10 @@ function DashboardCtrl($scope) {
                     var lastChild = activeNode.children().first().children('.task');
                     scope.selectedTask = lastChild.html();
                     scope.selectTask();
-                });
-                
+                });                
             }
+
+            return false;
         }
         else if (key.keyCode == 27) {
             // ESC

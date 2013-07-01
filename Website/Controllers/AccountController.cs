@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using TrackerApp.Website.Models;
@@ -9,6 +11,8 @@ namespace TrackerApp.Website.Controllers
     {
         public ActionResult SignOn()
         {
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
             // Fetch data about the previous logon
             ViewBag.Url = Request.Cookies.Get("TimeTrackr.Settings.Url") != null ? Request.Cookies.Get("TimeTrackr.Settings.Url").Value : "https://app.timelog.dk/local";
             ViewBag.Initials = Request.Cookies.Get("TimeTrackr.Settings.Initials") != null ? Request.Cookies.Get("TimeTrackr.Settings.Initials").Value : string.Empty;
@@ -40,11 +44,29 @@ namespace TrackerApp.Website.Controllers
                     SessionHelper.Instance.Initials = initials;
 
                     // Store the logon information for next time
-                    Response.Cookies.Add(new System.Web.HttpCookie("TimeTrackr.Settings.Url", url));
-                    Response.Cookies.Add(new System.Web.HttpCookie("TimeTrackr.Settings.Initials", initials));
+                    Response.Cookies.Add(new System.Web.HttpCookie("TimeTrackr.Settings.Url", url) { Expires = DateTime.Now.AddDays(90) });
+                    Response.Cookies.Add(new System.Web.HttpCookie("TimeTrackr.Settings.Initials", initials) { Expires = DateTime.Now.AddDays(90) });
 
                     // Authenticate with the application
-                    FormsAuthentication.SetAuthCookie(initials, true);
+                    if (Request.QueryString["ReturnUrl"] != null)
+                    {
+                        FormsAuthentication.RedirectFromLoginPage(initials, true);
+                    }
+                    else
+                    {
+                        FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                            1,
+                            initials,
+                            DateTime.Now,
+                            DateTime.Now.AddDays(90),
+                            true,
+                            string.Empty
+                            );
+
+                        string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                        System.Web.HttpCookie authCookie = new System.Web.HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                        System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);
+                    }
 
                     // Go to the dashboard
                     return Redirect("~/");

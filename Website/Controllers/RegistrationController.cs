@@ -23,6 +23,22 @@ namespace TrackerApp.Website.Controllers
             // Prepare the envelope with a faulty state
             JsonEnvelope<bool> result = new JsonEnvelope<bool> { Success = false, Data = false, Message = "No insert" };
 
+            string unique = string.Format("{0}{1}{2}{3}", date, hours, message, taskId);
+
+            if (Session["LastRegistration"] != null && unique == Session["LastRegistration"].ToString())
+            {
+                // Dublicate
+                result = new JsonEnvelope<bool>
+                {
+                    Success = false,
+                    Message = string.Empty
+                };
+
+                return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+
+            Session["LastRegistration"] = unique;
+
             // Construct the work unit object
             var unit = new WorkUnit();
             unit.TaskID = taskId;

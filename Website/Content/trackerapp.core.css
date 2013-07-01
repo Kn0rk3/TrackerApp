@@ -3,11 +3,11 @@
 	/*background-image: url('backgrounds/gradient.gif');*/
 	background-color: #EEE;
 	background-repeat: repeat-x;
-	font-family: Verdana, Arial, Tahoma;
+	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 	font-size: 0.7em;
 }
 
-input, select, textarea { font-family: Verdana, Arial, Sans-Serif; }
+input, select, textarea { font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif; }
 
 /* ==========================================================================
    Layout
@@ -60,14 +60,15 @@ input, select, textarea { font-family: Verdana, Arial, Sans-Serif; }
    Boxes
    ========================================================================== */
 .container { margin-right: 8px; margin-left: 8px; padding: 8px 0 18px 0; }
-.box, .figure { margin-top: 16px; margin-bottom: 16px; -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2); box-shadow: 0 0 8px rgba(0,0,0,0.2);background-color: #fff;}
+.box, .figure { margin-top: 10px; margin-bottom: 16px; background-color: #fff;}
 .figure {padding: 0;}
 .figure img {display: block;width: 100%;}
 .posLeft {float: left;}
 .posRight {float: right;}
-.corners { -moz-border-radius: 10px; border-radius: 10px; }
-.topbox { overflow: hidden; background-color: #8cbf26; -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2); box-shadow: 0 0 8px rgba(0,0,0,0.2); -moz-border-radius-topleft: 0; border-top-left-radius: 0; -moz-border-radius-topright: 0; border-top-right-radius: 0; }
-.topbox h1 { color: #FFF; }
+/*.corners { -moz-border-radius: 10px; border-radius: 10px; }*/
+.topbox { overflow: hidden; background-color: #8cbf26; height: 50px; }
+.topbox h1 { height: 30px; padding: 10px; color: #FFF; margin: 0; line-height: 30px; }
+.signOut a { display: block; padding: 10px; height: 30px; line-height: 30px; }
 .button {
 	width: 48px;
 	height: 48px;
@@ -83,21 +84,22 @@ a { color: #6F0000; cursor: pointer; }
 /* #HEADLINES
 ----------------------------------*/
 h1 {
-	font-family: Georgia, Arial, Verdana;
-	font-size: 1.4em;
+	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+	font-size: 17px;
+	font-weight: normal;
 	padding: 0;
 	margin: 5px 0 5px 0;
 }
 
 h2 {
-	font-family: Georgia, Arial, Verdana;
+	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	padding: 0;
 	margin: 0 0 5px 0;
 }
 
 h3 {
-	font-family: Georgia, Arial, Verdana;
+	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 	font-size: 0.9em;
 	font-weight: normal;
 	font-style: italic;
@@ -140,12 +142,12 @@ ul#registrationList span.action { width: 50px; color: #8cbf26; }
 
 /* #FORM
 ----------------------------------*/
-fieldset { margin-bottom: 10px; border: none; }
-fieldset legend { font-family: Georgia, Arial, Verdana; font-size: 1.2em; padding: 0; margin: 0 0 5px 0; font-weight: bold; }
+fieldset { margin-bottom: 10px; margin-top: 30px; border: none; }
+fieldset legend { font-size: 1.2em; width: 100%; padding: 0; margin: 0 0 5px 0; font-weight: bold; }
 fieldset em { font-style: normal; color: #f00; }
 fieldset .label { float: left; width: 180px; padding: 5px 0; }
 fieldset .field { padding: 5px 0; }
-fieldset .submit { margin-left: 180px; padding: 5px 0; float: left; }
+fieldset .submit { padding: 5px 0; float: left; }
 fieldset .submit button { padding: 7px 40px; }
 fieldset .submit input { padding: 7px 40px; }
 fieldset .error { margin-left: 180px; padding: 5px 0; float:left; color: #f00; }
@@ -165,9 +167,10 @@ tfoot { border-top: 1px solid #8cbf26;}
 
 .overflow { -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; display: block; white-space: nowrap; }
 
-.contentband { background-color: #8cbf26; padding: 5px 5px; text-align: center; color: #FFF; }
-.contentband a { text-decoration: none; color: #FFF; padding: 6px 15px; }
+.contentband { background-color: #8cbf26; padding: 10px 5px; text-align: center; color: #FFF; font-size: 1.2em; }
+.contentband a { text-decoration: none; color: #FFF; padding: 10px 15px; }
 .contentband label { height: 22px; margin-top: 2px; text-align: left; }
+.contentband input { height: 1em; }
 
 /* https://skydrive.live.com/view.aspx?resid=40CFFDE85F1AB56A!1284 - Slide 55*/
 .red { background-color: #E51400; color: #FFF; }
@@ -197,12 +200,10 @@ tfoot { border-top: 1px solid #8cbf26;}
 
 	button { height: 38px;min-width: 48px; }
 	input { padding: 5px 0; }
-    .contentband { text-align: left;}
-    .contentband span { display: block;width: 100%;}
-    .contentband span label { float: none; }
-    #registrationHours { width: 144px; }
-    #registrationText { width: 144px; }
-    .contentband button { width: 149px; }
+	.contentband { text-align: left;}
+	.contentband input { width: 99%; }
+	.contentband label { float: none; }
+	.contentband button { width: 149px; }
 
 	ul.listOutline span { border-left: none; }
 }

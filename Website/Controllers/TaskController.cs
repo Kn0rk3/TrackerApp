@@ -27,7 +27,7 @@ namespace TrackerApp.Website.Controllers
                 result = new JsonEnvelope<IEnumerable<Task>>
                 {
                     Success = true,
-                    Data = tasksResponse.Return.Select(t => new Task
+                    Data = tasksResponse.Return.Where(t => !t.IsParent).Select(t => new Task
                     {
                         Id = t.ID,
                         Name = t.FullName,

@@ -17,14 +17,14 @@
 
     <div id="wrapper">
         <div class="gridCol-16 topbox full corners">
-            <div class="container">
+            <div class="">
                 <h1 class="posLeft">TrackerApp for TimeLog Project</h1>
                 <div class="hidden posRight gridCol-06" style="font-size: 0.8em; color: #FFF; margin-bottom: 1em;">This app is used for demo purposes. Read more about how to get the source code and how it's build on 
                 <a style="color: #FFF;" href="#">Building a time tracking app with HTML5, jQuery and angularjs on top of TimeLog Project</a>.</div>
-                <div class="clearfix"></div>
                 @if (User.Identity.IsAuthenticated) {
-                <div>@Html.ActionLink("Sign " + TrackerApp.Website.Models.SessionHelper.Instance.FirstName + " out", "SignOut", "Account")</div>
+                <div class="signOut posRight">@Html.ActionLink("Sign " + TrackerApp.Website.Models.SessionHelper.Instance.FirstName + " out", "SignOut", "Account")</div>
                 }
+                <div class="clearfix"></div>
             </div>
         </div>
         @RenderBody()
