@@ -5,6 +5,8 @@ using TrackerApp.Website.Models;
 
 namespace TrackerApp.Website.Controllers
 {
+    using System.Web.Security;
+
     [Authorize]
     public class TaskController : Controller
     {
@@ -15,19 +17,19 @@ namespace TrackerApp.Website.Controllers
         public ActionResult Get()
         {
             // Prepare the envelope with a faulty state
-            JsonEnvelope<IEnumerable<Task>> result = new JsonEnvelope<IEnumerable<Task>> { Success = false, Data = new List<Task>(), Message = "No tasks" };
+            var _result = new JsonEnvelope<IEnumerable<Task>> { Success = false, Data = new List<Task>(), Message = "No tasks" };
 
             // Query the TimeLog Project web service for tasks allocated to the employee
-            var tasksResponse = SessionHelper.Instance.ProjectManagementClient.GetTasksAllocatedToEmployee(SessionHelper.Instance.Initials, SessionHelper.Instance.ProjectManagementToken);
+            var _tasksResponse = SessionHelper.Instance.ProjectManagementClient.GetTasksAllocatedToEmployee(SessionHelper.Instance.Initials, SessionHelper.Instance.ProjectManagementToken);
 
             // Check if the state is correct
-            if (tasksResponse.ResponseState == TimelogProjectManagement.ExecutionStatus.Success)
+            if (_tasksResponse.ResponseState == TimelogProjectManagement.ExecutionStatus.Success)
             {
                 // Recreate the result including the task data
-                result = new JsonEnvelope<IEnumerable<Task>>
+                _result = new JsonEnvelope<IEnumerable<Task>>
                 {
                     Success = true,
-                    Data = tasksResponse.Return.Where(t => !t.IsParent).Select(t => new Task
+                    Data = _tasksResponse.Return.Where(t => !t.IsParent).Select(t => new Task
                     {
                         Id = t.ID,
                         Name = t.FullName,
@@ -37,9 +39,14 @@ namespace TrackerApp.Website.Controllers
                     Message = string.Empty
                 };
             }
+            else if (_tasksResponse.ErrorCode == 20003)
+            {
+                // Token not valid anymore.
+                FormsAuthentication.SignOut();
+            }
 
             // Return the data as JSON
-            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return new JsonResult { Data = _result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
 }

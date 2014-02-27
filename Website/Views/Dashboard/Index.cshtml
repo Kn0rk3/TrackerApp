@@ -3,89 +3,94 @@
 }
 
 <div ng-controller="DashboardCtrl">
-    <div class="gridCol-08 box corners posLeft">
-        <div class="contentband"><a ng-click="previousDate()">&lt;</a> {{selectedDate | date:'EEEE dd-MM-yyyy' }} <a ng-click="nextDate()">&gt;</a></div>
-        <div class="container">
 
-            <h2>Registrations</h2>
-            <br />
-            <ul class="listOutline" id="registrationList">
-                <li class="header">
-                    <span class="listCell date">Date</span>
-                    <span class="listCell project">Project</span>
-                    <span class="listCell task">Task</span>
-                    <span class="listCell comment">Comment</span>
-                    <span class="listCell hours">Hours</span>
-                    <span class="listCell action">&nbsp;</span>
-                    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="pager">
+                <li class="previous">
+                    <a ng-click="previousDate()">&lt;</a>
                 </li>
-                <li ng-repeat="item in registrations">
-                    <a>
-                        <span class="listCell date" title="{{item.Date | date:'dd-MM-yyyy'}}">{{item.Date | date:'dd-MM-yyyy'}}</span>
-                        <span class="listCell project" title="{{item.ProjectName}}">{{item.ProjectName}}&nbsp;</span>
-                        <span class="listCell task" title="{{item.TaskName}}">{{item.TaskName}}&nbsp;</span>
-                        <span class="listCell comment" title="{{item.Comment}}">{{item.Comment}}&nbsp;</span>
-                        <span class="listCell hours">{{item.Hours | number:2}}</span>
-                        <span class="listCell action"><span ng-show="item.TaskName.length > 0" data-id="{{item.Id}}" ng-click="selectRegistrationClick($event)">Delete</span>&nbsp;</span>
-                        <div class="clearfix"></div>
-                    </a>
+                <li>
+                    <span class="text-center">
+                        Registrations from {{selectedDate | date:'EEEE dd-MM-yyyy' }}
+                    </span>
                 </li>
-                <li class="total">
-                    <span class="listCell date">&nbsp;</span>
-                    <span class="listCell project">Total</span>
-                    <span class="listCell task">&nbsp;</span>
-                    <span class="listCell comment">&nbsp;</span>
-                    <span class="listCell hours">{{registrationsTotal | number:2}}</span>
-                    <span class="listCell action">&nbsp;</span>
-                    <div class="clearfix"></div>
+                <li class="next">
+                    <a ng-click="nextDate()">&gt;</a>
                 </li>
             </ul>
+            <table class="table table-bordered white registrationTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Project</th>
+                        <th>Task</th>
+                        <th>Comment</th>
+                        <th>Hours</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in registrations">
+                        <td class="registrationDateColumn" title="{{item.Date | date:'dd-MM-yyyy'}}">{{item.Date | date:'dd-MM-yyyy'}}</td>
+                        <td class="registrationProjectColumn" title="{{item.ProjectName}}">{{item.ProjectName}}</td>
+                        <td class="registrationTaskColumn" title="{{item.TaskName}}">{{item.TaskName}}</td>
+                        <td class="registrationCommentColumn" title="{{item.Comment}}">{{item.Comment}}</td>
+                        <td class="registrationHoursColumn" title="{{item.Hours | number:2}}">{{item.Hours | number:2}}</td>
+                        <td class="actionColumn"><button class="btn" ng-show="item.TaskName.length > 0" data-id="{{item.Id}}" ng-click="selectRegistrationClick($event)">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td class="registrationDateColumn">&nbsp;</td>
+                        <td class="registrationProjectColumn">Total</td>
+                        <td class="registrationTaskColumn">&nbsp;</td>
+                        <td class="registrationCommentColumn">&nbsp;</td>
+                        <td class="registrationHoursColumn">{{registrationsTotal | number:2}}</td>
+                        <td class="actionColumn">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-
-    <div class="gridCol-08 box corners posRight">
-        <div class="contentband">
-            Search: <input type="text" id="query" ng-change="filterChange()" ng-model="query" />
-        </div>
-        <div class="container">
-
-            <h2>Tasks</h2>
-            <div class="contentband" id="registrationBand">
-                <div>
-                    <label class="overflow gridCol-05" title="{{selectedTask}}">{{selectedTask}}</label>
-                </div>
-                <div>
-                    <label class="overflow gridCol-02 posLeft">Hours:</label>
-                    <input class="posLeft" type="text" ng-model="registrationHours" pattern="[0-9]" id="registrationHours" />
-                    <div class="clearfix"></div>
-                </div>
-                <div>
-                    <label class="overflow gridCol-02 posLeft">Comment:</label>
-                    <input class="posLeft" type="text" ng-model="registrationText" id="registrationText" class="gridCol-02" />
-                    <div class="clearfix"></div>
-                </div>
-                <div>
-                    <label class="overflow gridCol-02 posLeft">&nbsp;</label>
-                    <button class="posLeft gridCol-02" id="buttonSave" ng-click="insertRegistration()">Save</button>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <ul class="listOutline" id="taskList">
-                <li class="header">
-                    <span class="listCell project">Project</span>
-                    <span class="listCell task">Task</span>
-                    <span class="listCell action">&nbsp;</span>
-                    <div class="clearfix"></div>
+        <div class="col-lg-12">
+            <ul class="pager">
+                <li>
+                    <span>
+                        Search: <input type="text" id="query" ng-change="filterChange()" ng-model="query" />
+                    </span>
                 </li>
-                <li ng-repeat="item in filteredTasks = (tasks | filter:query | limitTo: 15)">
-                    <a ng-click="selectTaskClick($event)">
-                        <span class="listCell project" title="{{item.ProjectName}}">{{item.ProjectName}}</span>
-                        <span class="listCell task" title="{{item.Name}}">{{item.Name}}</span>
-                        <span class="listCell action">Add</span>
-                        <div class="clearfix"></div>
-                    </a>
-                </li>                
             </ul>
+
+            <form role="form" id="registrationBand" class="grey">
+                <div class="form-group">
+                    <label title="{{selectedTask}}">{{selectedTask}}</label>
+                </div>
+                <div class="form-group">
+                    <label>Hours:</label>
+                    <input class="form-control" type="text" ng-model="registrationHours" pattern="[0-9]" id="registrationHours" />
+                </div>
+                <div class="form-group">
+                    <label>Comment:</label>
+                    <input class="form-control" type="text" ng-model="registrationText" id="registrationText" />
+                </div>
+                <button class="btn purple" id="buttonSave" ng-click="insertRegistration()">Save</button>
+            </form>
+
+            <table class="table table-bordered white" id="taskList">
+                <thead>
+                    <tr>
+                        <th class="allocationProjectColumn">Project</th>
+                        <th class="allocationTaskColumn">Task</th>
+                        <th>&nbsp;</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in filteredTasks = (tasks | filter:query | limitTo: 10)">
+                        <td class="allocationProjectColumn" title="{{item.ProjectName}}">{{item.ProjectName}}</td>
+                        <td class="allocationTaskColumn" title="{{item.Name}}">{{item.Name}}</td>
+                        <td class="actionColumn"><button class="btn" ng-click="selectTaskClick($event)">Add</button></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
     </div>
 </div>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html ng-app>
 <head>    
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title</title>
     <meta name="description" content="@ViewBag.MetaDescription">
-    <meta name="viewport" content="width=device-width">
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -15,19 +15,28 @@
         <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
-    <div id="wrapper">
-        <div class="gridCol-16 topbox full corners">
-            <div class="">
-                <h1 class="posLeft">TrackerApp for TimeLog Project</h1>
-                <div class="hidden posRight gridCol-06" style="font-size: 0.8em; color: #FFF; margin-bottom: 1em;">This app is used for demo purposes. Read more about how to get the source code and how it's build on 
-                <a style="color: #FFF;" href="#">Building a time tracking app with HTML5, jQuery and angularjs on top of TimeLog Project</a>.</div>
-                @if (User.Identity.IsAuthenticated) {
-                <div class="signOut posRight">@Html.ActionLink("Sign " + TrackerApp.Website.Models.SessionHelper.Instance.FirstName + " out", "SignOut", "Account")</div>
+    <div class="container">
+        
+        <div class="header">
+            <ul class="nav nav-pills pull-right">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="active"><a href="#">Home</a></li>
+                    <li>@Html.ActionLink("Sign " + TrackerApp.Website.Models.SessionHelper.Instance.FirstName + " out", "SignOut", "Account")</li>
                 }
-                <div class="clearfix"></div>
-            </div>
+                else
+                {
+                    <li class="active">@Html.ActionLink("Sign in", "SignOn", "Account")</li>  
+                }
+            </ul>
+            <h3 class="text-muted">TrackerApp</h3>
         </div>
+
         @RenderBody()
+        
+        <div class="footer">
+            <p>&copy; Oexenhave @DateTime.Now.Year</p>
+        </div>
     </div>
 
     <script type="text/javascript">

@@ -1,176 +1,56 @@
 ﻿BODY
 {
-	/*background-image: url('backgrounds/gradient.gif');*/
 	background-color: #EEE;
-	background-repeat: repeat-x;
-	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
-	font-size: 0.7em;
 }
 
-input, select, textarea { font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif; }
+@media (min-width: 768px) {
+    .container {
+        max-width: 730px;
+    }
 
-/* ==========================================================================
-   Layout
-   ==========================================================================
-#wrapper { position: absolute; width: 800px; left: 50%; margin-left: -400px; }*/
-#wrapper { position: absolute; width: 1280px; left: 50%; margin-left: -640px; }
-#top { padding: 0 0 11px 0; }
-
-/* ==========================================================================
-   Columns
-   ========================================================================== */
-.gridCol-01 {width: 64px;}
-.gridCol-01a {width: 80px;}
-.gridCol-02 {width: 144px;}
-.gridCol-03 {width: 224px;}
-.gridCol-04 {width: 304px;}
-.gridCol-05 {width: 384px;}
-.gridCol-06 {width: 464px;}
-.gridCol-07 {width: 544px;}
-.gridCol-08 {width: 624px;}
-.gridCol-09 {width: 704px;}
-.gridCol-10 {width: 784px;}
-.gridCol-11 {width: 864px;}
-.gridCol-12 {width: 944px;}
-.gridCol-13 {width:1024px;}
-.gridCol-14 {width:1104px;}
-.gridCol-15 {width:1184px;}
-.gridCol-16 {width:1264px;}
-.gridCol-01.full {width: 80px;}
-.gridCol-02.full {width: 160px;}
-.gridCol-03.full {width: 240px;}
-.gridCol-04.full {width: 320px;}
-.gridCol-05.full {width: 400px;}
-.gridCol-06.full {width: 480px;}
-.gridCol-07.full {width: 560px;}
-.gridCol-08.full {width: 640px;}
-.gridCol-09.full {width: 720px;}
-.gridCol-10.full {width: 800px;}
-.gridCol-11.full {width: 880px;}
-.gridCol-12.full {width: 960px;}
-.gridCol-13.full {width:1040px;}
-.gridCol-14.full {width:1120px;}
-.gridCol-15.full {width:1200px;}
-.gridCol-16.full {width:1280px;}
-
-.center { text-align: center; }
-.hidden { display: none; }
-
-/* ==========================================================================
-   Boxes
-   ========================================================================== */
-.container { margin-right: 8px; margin-left: 8px; padding: 8px 0 18px 0; }
-.box, .figure { margin-top: 10px; margin-bottom: 16px; background-color: #fff;}
-.figure {padding: 0;}
-.figure img {display: block;width: 100%;}
-.posLeft {float: left;}
-.posRight {float: right;}
-/*.corners { -moz-border-radius: 10px; border-radius: 10px; }*/
-.topbox { overflow: hidden; background-color: #8cbf26; height: 50px; }
-.topbox h1 { height: 30px; padding: 10px; color: #FFF; margin: 0; line-height: 30px; }
-.signOut a { display: block; padding: 10px; height: 30px; line-height: 30px; }
-.button {
-	width: 48px;
-	height: 48px;
-	cursor: pointer;
-	text-align: center;
-	line-height: 48px;
+    .header {
+        margin-bottom: 30px;
+    }
 }
 
-/* #LINKS
-----------------------------------*/
 a { color: #6F0000; cursor: pointer; }
+p { margin-bottom: 16px; }
+table { font-size: 0.8em; }
+table .btn { font-size: 0.8em; }
 
-/* #HEADLINES
-----------------------------------*/
-h1 {
-	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
-	font-size: 17px;
-	font-weight: normal;
-	padding: 0;
-	margin: 5px 0 5px 0;
-}
-
-h2 {
-	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
-	font-size: 1.2em;
-	padding: 0;
-	margin: 0 0 5px 0;
-}
-
-h3 {
-	font-family: 'Segoe UI', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
-	font-size: 0.9em;
-	font-weight: normal;
-	font-style: italic;
-	padding: 0;
-	margin: 0 0 5px 0;
-}
-
-/* #LISTS
-----------------------------------*/
-ul.simple { list-style: none; margin: 2px 0; padding: 0; }
-ul.simple li { list-style: none; margin: 0 40px 4px 0; padding: 0 0 4px 0; border-bottom: 1px solid #CCC; }
-
-ul.list { list-style: none; margin: 10px 25px 10px 5px; padding: 0; }
-ul.list li { padding: 7px 7px; background-color: #eee; border-bottom: 1px solid #aaa; border-top: 1px solid #fff; }
-ul.list li a { text-decoration: none; display: block; }
-ul.list li a.inline { display: inline; }
-ul.list li.action { background-color: transparent; border-bottom: none; }
-
-.listCell { display: block; float: left; padding: 3px 3px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-
-ul.listOutline { list-style: none;margin: 0;padding: 0;}
-ul.listOutline li { list-style: none;margin: 0;padding: 0;}
-ul.listOutline li.header { font-weight: bold;border-bottom: 1px solid #000000;}
-ul.listOutline li.total { font-weight: bold; border-top: 1px solid #8cbf26;}
-ul.listOutline li a { border-bottom: 1px solid #eee;display: block;color: #000; }
-ul.listOutline span { border-left: 1px solid #ccc; }
-ul.listOutline span:first-child { border-left: none; }
-ul.listOutline span a { display: inline; }
-
-ul#taskList span.project { width: 200px; }
-ul#taskList span.task { width: 300px; }
-ul#taskList span.action { width: 50px; color: #8cbf26; }
-
-ul#registrationList span.date { width: 85px; }
-ul#registrationList span.project { width: 148px; }
-ul#registrationList span.task { width: 148px; }
-ul#registrationList span.comment { width: 68px; }
-ul#registrationList span.hours { width: 68px; }
-ul#registrationList span.action { width: 50px; color: #8cbf26; }
-
-/* #FORM
-----------------------------------*/
-fieldset { margin-bottom: 10px; margin-top: 30px; border: none; }
-fieldset legend { font-size: 1.2em; width: 100%; padding: 0; margin: 0 0 5px 0; font-weight: bold; }
-fieldset em { font-style: normal; color: #f00; }
-fieldset .label { float: left; width: 180px; padding: 5px 0; }
-fieldset .field { padding: 5px 0; }
-fieldset .submit { padding: 5px 0; float: left; }
-fieldset .submit button { padding: 7px 40px; }
-fieldset .submit input { padding: 7px 40px; }
-fieldset .error { margin-left: 180px; padding: 5px 0; float:left; color: #f00; }
-fieldset input { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: 250px; }
-fieldset input[type=checkbox] { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: auto; }
-fieldset input[type=radio] { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: auto; }
-fieldset textarea { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: 250px; height: 100px; }
-fieldset select { font-family: Verdana, Arial, Tahoma; font-size: 1em; width: 250px; }
-
-table { width: 100%; margin: 16px 0; }
-th { padding: 2px 5px; border-right: 1px solid #ccc; vertical-align: top; text-align: left; border-bottom: 1px solid #000; }
-td { padding: 2px 5px; border-right: 1px solid #ccc; vertical-align: top; }
-td span { -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; display: block;padding-top: 2px; height: 1.3em; white-space: nowrap; }
-td:last-child, th:last-child { border-right: none; }
-tfoot { border-top: 1px solid #8cbf26;}
-.active { background-color: #ddd; }
+.header h3 { padding-top: 7px; }
+.jumbotron { background-color: #8cbf26; }
+.signon { margin-top: 16px;}
+.signon input[type=submit] { margin-bottom: 20px;}
+.pager { background-color: #8cbf26; -webkit-border-top-left-radius: 15px;
+-webkit-border-top-right-radius: 15px;
+-moz-border-radius-topleft: 15px;
+-moz-border-radius-topright: 15px;
+border-top-left-radius: 15px;
+border-top-right-radius: 15px; margin-bottom: 0; }
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { background-color: #ff0097; }
+.footer { padding-top: 10px;font-size: 8pt; color: #777; border-top: 1px solid #e5e5e5;margin-top: 25px; }
 
 .overflow { -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; display: block; white-space: nowrap; }
 
-.contentband { background-color: #8cbf26; padding: 10px 5px; text-align: center; color: #FFF; font-size: 1.2em; }
-.contentband a { text-decoration: none; color: #FFF; padding: 10px 15px; }
-.contentband label { height: 22px; margin-top: 2px; text-align: left; }
-.contentband input { height: 1em; }
+#registrationBand { padding: 0 20px 10px;font-size: 0.8em; -webkit-border-bottom-left-radius: 15px;
+-webkit-border-bottom-right-radius: 15px;
+-moz-border-radius-bottomleft: 15px;
+-moz-border-radius-bottomright: 15px;
+border-bottom-left-radius: 15px;
+border-bottom-right-radius: 15px; margin-bottom: 10px; }
+    
+td { vertical-align: baseline; }                                     
+table.registrationTable { margin-bottom: 0; }
+td.registrationDateColumn { width: 75px; }
+td.registrationProjectColumn { width: 150px; }
+td.registrationTaskColumn { width: auto; }
+td.registrationCommentColumn { width: 130px; }
+td.registrationHoursColumn { width: 50px; }
+td.allocationProjectColumn { width: 225px; }
+td.allocationTaskColumn { width: auto; }
+td.actionColumn { width: 70px; }
+
 
 /* https://skydrive.live.com/view.aspx?resid=40CFFDE85F1AB56A!1284 - Slide 55*/
 .red { background-color: #E51400; color: #FFF; }
@@ -183,27 +63,7 @@ tfoot { border-top: 1px solid #8cbf26;}
 .brown { background-color: #a05000; }
 .pink { background-color: #e671b8; color: #FFF; }
 .orange { background-color: #f09609; }
-.grey { background-color: #777; }
+.grey { background-color: #f5f5f5;color: #000; }
+.white { background-color: #FFF; }
 .green { background-color: #284B44; color: #FFF; }
 .transparent { opacity: 0.3; }
-
-
-/* ==========================================================================
-   Responsive
-   ========================================================================== */
-
-@media screen and (max-width: 800px) {
-	#wrapper { width: 100%; left: auto; margin-left: 0; }
-	.gridCol-08, .gridCol-09, .gridCol-10, .gridCol-11, .gridCol-12, .gridCol-13, .gridCol-14, .gridCol-15, .gridCol-16 { width: 100%; }
-	.gridCol-07.full, .gridCol-09.full, .gridCol-10.full, .gridCol-11.full, .gridCol-12.full, .gridCol-13.full, .gridCol-14.full, .gridCol-15.full, .gridCol-16.full { width: 100%; }
-	.gridCol-08.posLeft { float: none; }
-
-	button { height: 38px;min-width: 48px; }
-	input { padding: 5px 0; }
-	.contentband { text-align: left;}
-	.contentband input { width: 99%; }
-	.contentband label { float: none; }
-	.contentband button { width: 149px; }
-
-	ul.listOutline span { border-left: none; }
-}

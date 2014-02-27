@@ -4,11 +4,26 @@ using System.Web;
 using System.Web.Security;
 namespace TrackerApp.Website.Models
 {
+    using System;
+
+    using TrackerApp.Website.TimelogSecurity;
+
     public class SessionHelper
     {
+        private static int CookieDaysTimeout = 90;
+
+        public static string SessionInitials = "TimeTrackr.User.Initials";
+        public static string SessionUrl = "TimeTrackr.User.Url";
+        public static string SessionFirstName = "TimeTrackr.User.FirstName";
+        public static string SessionSecurityTokenHash = "TimeTrackr.User.SecurityToken.Hash";
+        public static string SessionSecurityTokenInitials = "TimeTrackr.User.SecurityToken.Initials";
+        public static string SessionSecurityTokenExpires = "TimeTrackr.User.SecurityToken.Expires";
+
         private static SessionHelper instance;
         private TimelogProjectManagement.ProjectManagementServiceClient projectManagementClient;
-        private TimelogSecurity.SecurityServiceClient securityClient;
+        private SecurityServiceClient securityClient;
+
+        private SecurityToken securityToken;
 
         public static SessionHelper Instance
         {
@@ -26,11 +41,20 @@ namespace TrackerApp.Website.Models
         {
             get
             {
-                return HttpContext.Current.Session["TimeTrackr.User.Initials"].ToString();
+                var _value = HttpContext.Current.Request.Cookies[SessionInitials];
+                if (_value == null)
+                {
+                    // Log off
+                    FormsAuthentication.SignOut();
+                    HttpContext.Current.Response.Redirect("~/");
+                    return string.Empty;
+                }
+
+                return _value.Value;
             }
             set
             {
-                HttpContext.Current.Session["TimeTrackr.User.Initials"] = value;
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionInitials, value) { Expires = DateTime.Now.AddDays(CookieDaysTimeout) });
             }
         }
 
@@ -38,8 +62,8 @@ namespace TrackerApp.Website.Models
         {
             get
             {
-                var value = HttpContext.Current.Session["TimeTrackr.User.Url"].ToString();
-                if (value == null)
+                var _value = HttpContext.Current.Request.Cookies[SessionUrl];
+                if (_value == null)
                 {
                     // Log off
                     FormsAuthentication.SignOut();
@@ -47,11 +71,11 @@ namespace TrackerApp.Website.Models
                     return string.Empty;
                 }
 
-                return value.ToString();
+                return _value.Value;
             }
             set
             {
-                HttpContext.Current.Session["TimeTrackr.User.Url"] = value;
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionUrl, value.Replace("http://", "https://")) { Expires = DateTime.Now.AddDays(CookieDaysTimeout) });
             }
         }
 
@@ -59,32 +83,54 @@ namespace TrackerApp.Website.Models
         {
             get
             {
-                var value = HttpContext.Current.Session["TimeTrackr.User.FirstName"];
-                if (value == null)
+                var _value = HttpContext.Current.Request.Cookies[SessionFirstName];
+                if (_value == null)
                 {
-                    // Log off
-                    FormsAuthentication.SignOut();
-                    HttpContext.Current.Response.Redirect("~/");
-                    return string.Empty;
+                    return "N/A";
                 }
 
-                return value.ToString();
+                return HttpUtility.UrlDecode(_value.Value);
             }
             set
             {
-                HttpContext.Current.Session["TimeTrackr.User.FirstName"] = value;
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionFirstName, HttpUtility.UrlEncode(value)) { Expires = DateTime.Now.AddDays(CookieDaysTimeout) });
             }
         }
 
-        public TimelogSecurity.SecurityToken SecurityToken
+        public SecurityToken SecurityToken
         {
             get
             {
-                return (TimelogSecurity.SecurityToken)HttpContext.Current.Session["TimeTrackr.User.SecurityToken"];
+                if (securityToken == null)
+                {
+                    var _tokenExpires = HttpContext.Current.Request.Cookies[SessionSecurityTokenExpires];
+                    var _tokenHash = HttpContext.Current.Request.Cookies[SessionSecurityTokenHash];
+                    var _tokenInitials = HttpContext.Current.Request.Cookies[SessionSecurityTokenInitials];
+
+                    if (_tokenExpires == null || _tokenHash == null || _tokenInitials == null)
+                    {
+                        // Log off
+                        FormsAuthentication.SignOut();
+                        HttpContext.Current.Response.Redirect("~/");
+                        return null;
+                    }
+
+                    securityToken = new SecurityToken
+                                    {
+                                        Expires = Convert.ToDateTime(_tokenExpires.Value),
+                                        Hash = _tokenHash.Value,
+                                        Initials = _tokenInitials.Value
+                                    };
+                }
+
+                return securityToken;
             }
             set
             {
-                HttpContext.Current.Session["TimeTrackr.User.SecurityToken"] = value;
+                securityToken = value;
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionSecurityTokenExpires, value.Expires.ToString("r")) { Expires = DateTime.Now.AddDays(CookieDaysTimeout) });
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionSecurityTokenHash, value.Hash) { Expires = DateTime.Now.AddDays(CookieDaysTimeout) });
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionSecurityTokenInitials, value.Initials) { Expires = DateTime.Now.AddDays(CookieDaysTimeout) });
             }
         }
 
@@ -107,28 +153,52 @@ namespace TrackerApp.Website.Models
             {
                 if (projectManagementClient == null)
                 {
-                    var binding = new BasicHttpsBinding() { MaxReceivedMessageSize = 1024000 };
-                    var endpoint = new EndpointAddress(Url + "/WebServices/ProjectManagement/V1_3/ProjectManagementServiceSecure.svc");
-                    projectManagementClient = new TimelogProjectManagement.ProjectManagementServiceClient(binding, endpoint);
+                    var _binding = new BasicHttpsBinding { MaxReceivedMessageSize = 1024000 };
+                    var _endpoint = new EndpointAddress(Url + "/WebServices/ProjectManagement/V1_3/ProjectManagementServiceSecure.svc");
+                    projectManagementClient = new TimelogProjectManagement.ProjectManagementServiceClient(_binding, _endpoint);
                 }
 
                 return projectManagementClient;
             }
         }
 
-        public TimelogSecurity.SecurityServiceClient SecurityClient
+        public SecurityServiceClient SecurityClient
         {
             get
             {
                 if (securityClient == null)
                 {
-                    var binding = new BasicHttpsBinding() { MaxReceivedMessageSize = 1024000 };
-                    var endpoint = new EndpointAddress(Url + "/WebServices/Security/V1_2/SecurityServiceSecure.svc");
-                    securityClient = new TimelogSecurity.SecurityServiceClient(binding, endpoint);
+                    var _binding = new BasicHttpsBinding { MaxReceivedMessageSize = 1024000 };
+                    var _endpoint = new EndpointAddress(Url + "/WebServices/Security/V1_2/SecurityServiceSecure.svc");
+                    securityClient = new SecurityServiceClient(_binding, _endpoint);
                 }
 
                 return securityClient;
             }
+        }
+
+        public void Authenticate(string initials)
+        {
+            var _ticket = new FormsAuthenticationTicket(
+                             1,
+                             initials,
+                             DateTime.Now,
+                             DateTime.Now.AddDays(CookieDaysTimeout),
+                             true,
+                             string.Empty
+                             );
+            var _encryptedTicket = FormsAuthentication.Encrypt(_ticket);
+            var _authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, _encryptedTicket) { Expires = DateTime.Now.AddDays(CookieDaysTimeout) };
+            HttpContext.Current.Response.Cookies.Add(_authCookie);
+        }
+
+        public void Deauthenticate()
+        {
+            HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionSecurityTokenExpires) { Expires = DateTime.Now.AddDays(-1d) });
+            HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionSecurityTokenHash) { Expires = DateTime.Now.AddDays(-1d) });
+            HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionSecurityTokenInitials) { Expires = DateTime.Now.AddDays(-1d) });
+            HttpContext.Current.Response.Cookies.Add(new HttpCookie(SessionFirstName) { Expires = DateTime.Now.AddDays(-1d) });
+            FormsAuthentication.SignOut();
         }
     }
 }

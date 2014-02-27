@@ -2,26 +2,58 @@
     ViewBag.Title = "Sign on";
 }
 
-<div ng-controller="SignOnCtrl">
-    <div class="gridCol-16 box full corners">
-        <div class="container">
+<div class="jumbotron">
+    <h1>TrackerApp for TimeLog Project</h1>
+    <p class="lead">
+        This app is used for demo purposes. Read more about how to get the source code and how it's build on
+        <a style="color: #FFF;" href="#">Building a time tracking app with HTML5, jQuery and angularjs on top of TimeLog Project</a>.
+    </p>
 
-            <h1>Welcome!</h1>
+</div>
 
-            @using (Html.BeginForm()) {
-            <fieldset>
-                <legend>Sign on to start using the TrackerApp for TimeLog Project</legend>
-                <div class="label"><label for="Url">TimeLog Project url:</label></div>
-                <div class="field">@Html.TextBox("Url", (string)ViewBag.Url)</div>
-                <div class="label"><label for="Initials">Initials:</label></div>
-                <div class="field">@Html.TextBox("Initials", (string)ViewBag.Initials)</div>
-                <div class="label"><label for="Password">Password:</label></div>
-                <div class="field">@Html.Password("Password")</div>
-                <div class="label">&nbsp;</div>
-                <div class="submit"><input type="submit" value="Sign on" /></div>
-                <div class="error">@Html.ValidationMessage("Initials")</div>
-            </fieldset>
-            }
-        </div>
+
+<div class="row">
+    <div class="col-lg-6">
+
+        <h4>Welcome!</h4>
+        <p>
+            This application is available for all TimeLog Project customers. The idea behind this application
+            is to allow customers to see how the API can be utilized and possibly also allow end-users to
+            try out yet another interface - which by design is ready for mobile screens.
+        </p>
+        <p>
+            Use the form to the right to sign on to the TrackerApp.
+        </p>
+        <p>
+            Feel free to download the source code and modify it to your needs.
+        </p>
+
+    </div>
+    <div class="col-lg-6" ng-controller="SignOnCtrl">
+
+        @using (Html.BeginForm("SignOn", "Account", FormMethod.Post, new { @class="signon", role = "form" }))
+        {
+            <div class="form-group">
+                <label for="Url">TimeLog Project url:</label>
+                @Html.TextBox("Url", (string)ViewBag.Url, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="Initials">Initials:</label>
+                @Html.TextBox("Initials", (string)ViewBag.Initials, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="Password">Password:</label>
+                @Html.Password("Password", string.Empty, new { @class = "form-control" })
+            </div>
+            <input type="submit" class="btn btn-default purple" value="Sign on" />
+            
+            if (Html.ValidationMessage("Initials") != null)
+            {
+                <div class="alert alert-danger">
+                    @Html.ValidationMessage("Initials")     
+                    </div>
+                    }
+            
+        }
     </div>
 </div>

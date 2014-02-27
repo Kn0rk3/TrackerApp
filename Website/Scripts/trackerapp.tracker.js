@@ -62,7 +62,7 @@ function DashboardCtrl($scope) {
 
                 // Calculate the total hours
                 scope.registrationsTotal = 0;
-                for (dat in scope.registrations) {
+                for (var dat in scope.registrations) {
                     scope.registrationsTotal = scope.registrationsTotal + scope.registrations[dat].Hours;
                 }
             });
@@ -71,7 +71,7 @@ function DashboardCtrl($scope) {
 
     $scope.filterChange = function () {
         // When the filter changes, reset the selection to the first result
-        $scope.selectedIndex = 2;
+        $scope.selectedIndex = 1;
         setTimeout(function () {
             // Wait sligthly before updating the selection
             $scope.updateSelection();
@@ -80,10 +80,10 @@ function DashboardCtrl($scope) {
 
     $scope.updateSelection = function() {
         // Reset the selection class from all results
-        $('#taskList li').removeClass('active');
+        $('#taskList tbody tr').removeClass('active');
 
         // Find the active note and highlight
-        var activeNode = $('#taskList li:nth-child(' + $scope.selectedIndex + ')');
+        var activeNode = $('#taskList tbody tr:nth-child(' + $scope.selectedIndex + ')');
         activeNode.addClass('active');
 
         // Reposition the window scroll position
@@ -102,7 +102,7 @@ function DashboardCtrl($scope) {
         $('#buttonSave').disabled = true;
 
         // Insert registration
-        var activeNode = $scope.filteredTasks[$scope.selectedIndex - 2];
+        var activeNode = $scope.filteredTasks[$scope.selectedIndex - 1];
 
         $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function(data) {
             $scope.getRegistrations();
@@ -131,13 +131,13 @@ function DashboardCtrl($scope) {
 
     $scope.selectTaskClick = function(evt) {
 
-        var tdIndex = $(evt.target).closest('li').prevAll().length + 1;
-        var activeNode = $('#taskList li:nth-child(' + tdIndex + ')');
-        var lastChild = activeNode.children().first().children('.task');
-        
+        var tdIndex = $(evt.target).closest('tr').prevAll().length + 1;
+        var activeNode = $('#taskList tbody tr:nth-child(' + tdIndex + ')');
+        var lastChild = activeNode.children()[1];
+
         $scope.selectedIndex = tdIndex;
         $scope.updateSelection();
-        $scope.selectedTask = lastChild.html();
+        $scope.selectedTask = $(lastChild).html();
 
         $scope.selectTask();
     };
@@ -167,14 +167,14 @@ function DashboardCtrl($scope) {
 
     $(document).bind('keydown', function (key) {
 
-        var itemCount = $('#taskList li').length;
+        var itemCount = $('#taskList tbody tr').length;
         if (key.keyCode === 40 && $scope.selectedIndex < itemCount) {
             // ARROW UP
             $scope.selectedIndex = $scope.selectedIndex + 1; $scope.updateSelection();
             $scope.registrationHours = 0;
             $scope.registrationText = '';
         }
-        else if (key.keyCode === 38 && $scope.selectedIndex > 2) {
+        else if (key.keyCode === 38 && $scope.selectedIndex > 1) {
             // ARROW DOWN
             $scope.selectedIndex = $scope.selectedIndex - 1; $scope.updateSelection();
             $scope.registrationHours = 0;
@@ -194,7 +194,7 @@ function DashboardCtrl($scope) {
             } else {
                 
                 $scope.$apply(function (scope) {
-                    var activeNode = $('#taskList li:nth-child(' + $scope.selectedIndex + ')');
+                    var activeNode = $('#taskList tr:nth-child(' + $scope.selectedIndex + ')');
                     var lastChild = activeNode.children().first().children('.task');
                     scope.selectedTask = lastChild.html();
                     scope.selectTask();
