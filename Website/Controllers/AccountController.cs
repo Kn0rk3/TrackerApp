@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
+
 using TrackerApp.Website.Models;
 
 namespace TrackerApp.Website.Controllers
@@ -12,17 +11,8 @@ namespace TrackerApp.Website.Controllers
         public ActionResult SignOn()
         {
             // Fetch data about the previous logon
-            var _settingsUrl = this.Request.Cookies.Get("TimeTrackr.Settings.Url");
-            if (_settingsUrl != null)
-            {
-                this.ViewBag.Url = _settingsUrl.Value;
-            }
-
-            var _settingsInitials = this.Request.Cookies.Get("TimeTrackr.Settings.Initials");
-            if (_settingsInitials != null)
-            {
-                this.ViewBag.Initials = _settingsInitials.Value;
-            }
+            this.ViewBag.Url = SessionHelper.Instance.Url;
+            this.ViewBag.Initials = SessionHelper.Instance.Initials;
 
             return View();
         }

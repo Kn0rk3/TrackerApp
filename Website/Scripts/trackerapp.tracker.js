@@ -1,4 +1,28 @@
-﻿function SignOnCtrl($scope) {
+﻿angular.module('trackerapp', []).filter('easyDate', function ($filter) {
+    var standardDateFilterFn = $filter('date');
+    return function (dateToFormat) {
+
+        var testDate = new Date();
+        testDate.setDate(testDate.getDate() + 1);
+        if (dateToFormat.getDate() == testDate.getDate()) {
+            return 'tomorrow';
+        }
+
+        testDate.setDate(testDate.getDate() - 1);
+        if (dateToFormat.getDate() == testDate.getDate()) {
+            return 'today';
+        }
+
+        testDate.setDate(testDate.getDate() - 1);
+        if (dateToFormat.getDate() == testDate.getDate()) {
+            return 'yesterday';
+        }
+
+        return standardDateFilterFn(dateToFormat, 'EEEE (dd-MM-yyyy)');
+    };
+});
+
+function SignOnCtrl($scope) {
     $scope.root = root;
 
     // Initialize

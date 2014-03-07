@@ -44,9 +44,6 @@ namespace TrackerApp.Website.Models
                 var _value = HttpContext.Current.Request.Cookies[SessionInitials];
                 if (_value == null)
                 {
-                    // Log off
-                    FormsAuthentication.SignOut();
-                    HttpContext.Current.Response.Redirect("~/");
                     return string.Empty;
                 }
 
@@ -65,9 +62,6 @@ namespace TrackerApp.Website.Models
                 var _value = HttpContext.Current.Request.Cookies[SessionUrl];
                 if (_value == null)
                 {
-                    // Log off
-                    FormsAuthentication.SignOut();
-                    HttpContext.Current.Response.Redirect("~/");
                     return string.Empty;
                 }
 
