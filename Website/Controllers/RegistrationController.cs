@@ -106,16 +106,15 @@ namespace TrackerApp.Website.Controllers
                     Message = string.Empty
                 };
             }
-            else if (_response.ErrorCode == 20003)
+            else if (_response.ErrorCode == 20004 || _response.ErrorCode == 20003)
             {
                 // Token not valid anymore.
                 FormsAuthentication.SignOut();
+                return new JsonResult { Data = new { Error = true, _response.ErrorCode, _response.Messages.FirstOrDefault().Message }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             else
             {
-                // No, take the first error message
-                _result.Message = _response.Messages.FirstOrDefault().Message;
-                _result.Success = false;
+                return new JsonResult { Data = new { Error = true, _response.ErrorCode, _response.Messages.FirstOrDefault().Message }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
 
             // Return the data as JSON
@@ -173,10 +172,15 @@ namespace TrackerApp.Website.Controllers
                     Message = string.Empty
                 };
             }
-            else if (_response.ErrorCode == 20003)
+            else if (_response.ErrorCode == 20004 || _response.ErrorCode == 20003)
             {
                 // Token not valid anymore.
                 FormsAuthentication.SignOut();
+                return new JsonResult { Data = new { Error = true, _response.ErrorCode, _response.Messages.FirstOrDefault().Message }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            else
+            {
+                return new JsonResult { Data = new { Error = true, _response.ErrorCode, _response.Messages.FirstOrDefault().Message }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };                
             }
 
             // Return the data as JSON

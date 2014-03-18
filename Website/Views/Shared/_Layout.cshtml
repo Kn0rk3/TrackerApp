@@ -21,7 +21,7 @@
             <ul class="nav nav-pills pull-right">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li class="active"><a href="#">Home</a></li>
+                    <li class="active">@Html.ActionLink("Home", "Index", "Dashboard")</li>
                     <li>@Html.ActionLink("Sign " + TrackerApp.Website.Models.SessionHelper.Instance.FirstName + " out", "SignOut", "Account")</li>
                 }
                 else

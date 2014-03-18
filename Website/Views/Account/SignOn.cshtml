@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Sign on";
+    ViewBag.Title = "TimeLog Project - Sign on";
 }
 
 <div class="jumbotron">
@@ -51,9 +51,25 @@
             {
                 <div class="alert alert-danger">
                     @Html.ValidationMessage("Initials")     
-                    </div>
-                    }
+                </div>
+            }
             
         }
     </div>
 </div>
+
+@section scripts
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('#url').length == 0) {
+            $('#url').focus();
+        } else if ($('#initials').length == 0) {
+            $('#initials').focus();
+        } else {
+            $('#password').focus();
+        }
+    });
+</script>
+    
+}

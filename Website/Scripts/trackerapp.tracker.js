@@ -62,6 +62,15 @@ function DashboardCtrl($scope) {
         // Fetch the list of tasks from the web service
         $.getJSON(root + 'Task/Get', {}, function (data) {
             $scope.$apply(function (scope) {
+
+                if (data.Error) {
+                    if (data.ErrorCode == 20004 || data.ErrorCode == 20003) {
+                        location.href = root;
+                    } else {
+                        alert('Something unexpected happened :(\n' + data.message);
+                    }
+                }
+
                 // Apply the result to the scope and trigger the filter change
                 scope.tasks = data.Data;
                 scope.filterChange();
@@ -76,6 +85,15 @@ function DashboardCtrl($scope) {
         // Fetch the list of registrations from the web service
         $.getJSON(root + 'Registration/Get', { start: dateToYMD($scope.selectedDate) }, function (data) {
             $scope.$apply(function (scope) {
+
+                if (data.Error) {
+                    if (data.ErrorCode == 20004 || data.ErrorCode == 20003) {
+                        location.href = root;
+                    } else {
+                        alert('Something unexpected happened :(\n' + data.message);
+                    }
+                }
+
                 // Apply the result to the scope
                 scope.registrations = data.Data;
 
@@ -120,6 +138,13 @@ function DashboardCtrl($scope) {
         $('#query').focus();
     };
 
+    $scope.cancelRegistration = function() {
+        $('#registrationBand').hide();
+        $('#query').focus();
+        $('#buttonSave').html('Save');
+        $('#buttonSave').disabled = false;
+    };
+
     $scope.insertRegistration = function() {
 
         $('#buttonSave').html('Saving...');
@@ -128,14 +153,15 @@ function DashboardCtrl($scope) {
         // Insert registration
         var activeNode = $scope.filteredTasks[$scope.selectedIndex - 1];
 
+        if ($scope.registrationHours <= 0) {
+            $scope.cancelRegistration();
+        }
+
         $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function(data) {
             $scope.getRegistrations();
 
             setTimeout(function () {
-                $('#registrationBand').hide();
-                $('#query').focus();
-                $('#buttonSave').html('Save');
-                $('#buttonSave').disabled = false;
+                $scope.cancelRegistration();
             }, 250);
         });
     };
@@ -218,9 +244,10 @@ function DashboardCtrl($scope) {
             } else {
                 
                 $scope.$apply(function (scope) {
-                    var activeNode = $('#taskList tr:nth-child(' + $scope.selectedIndex + ')');
-                    var lastChild = activeNode.children().first().children('.task');
-                    scope.selectedTask = lastChild.html();
+
+                    var activeNode = $('#taskList tbody tr:nth-child(' + $scope.selectedIndex + ')');
+                    var lastChild = activeNode.children()[1];
+                    scope.selectedTask = $(lastChild).html();
                     scope.selectTask();
                 });                
             }

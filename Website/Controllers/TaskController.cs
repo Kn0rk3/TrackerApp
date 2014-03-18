@@ -39,10 +39,15 @@ namespace TrackerApp.Website.Controllers
                     Message = string.Empty
                 };
             }
-            else if (_tasksResponse.ErrorCode == 20003)
+            else if (_tasksResponse.ErrorCode == 20004 || _tasksResponse.ErrorCode == 20003)
             {
                 // Token not valid anymore.
                 FormsAuthentication.SignOut();
+                return new JsonResult { Data = new { Error = true, _tasksResponse.ErrorCode, _tasksResponse.Messages.FirstOrDefault().Message }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            else
+            {
+                return new JsonResult { Data = new { Error = true, _tasksResponse.ErrorCode, _tasksResponse.Messages.FirstOrDefault().Message }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
 
             // Return the data as JSON
