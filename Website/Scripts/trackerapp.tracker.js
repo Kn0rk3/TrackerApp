@@ -42,7 +42,7 @@ function DashboardCtrl($scope) {
     $scope.selectedDate = new Date();
     $scope.registrationsTotal = 0.0;
     $scope.selectedTask = '';
-    $scope.registrationHours = 0;
+    $scope.registrationHours = '';
     $scope.registrationText = '';
     $scope.filteredTasks = [];
 
@@ -153,11 +153,11 @@ function DashboardCtrl($scope) {
         // Insert registration
         var activeNode = $scope.filteredTasks[$scope.selectedIndex - 1];
 
-        if ($scope.registrationHours <= 0) {
+        if ($scope.registrationHours.length == 0 || $scope.registrationHours == '0') {
             $scope.cancelRegistration();
         }
 
-        $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function(data) {
+        $.getJSON(root + 'Registration/Insert', { date: dateToYMD($scope.selectedDate), hours: $scope.registrationHours.toString().replace(',', '.'), message: $scope.registrationText, taskId: activeNode.Id }, function(data) {
             $scope.getRegistrations();
 
             setTimeout(function () {
@@ -169,7 +169,7 @@ function DashboardCtrl($scope) {
     $scope.selectTask = function () {
         
         $('#registrationBand').show();
-        $scope.registrationHours = 0;
+        $scope.registrationHours = '0';
         $scope.registrationText = '';
 
         $('#registrationHours').focus();
@@ -221,13 +221,13 @@ function DashboardCtrl($scope) {
         if (key.keyCode === 40 && $scope.selectedIndex < itemCount) {
             // ARROW UP
             $scope.selectedIndex = $scope.selectedIndex + 1; $scope.updateSelection();
-            $scope.registrationHours = 0;
+            $scope.registrationHours = '0';
             $scope.registrationText = '';
         }
         else if (key.keyCode === 38 && $scope.selectedIndex > 1) {
             // ARROW DOWN
             $scope.selectedIndex = $scope.selectedIndex - 1; $scope.updateSelection();
-            $scope.registrationHours = 0;
+            $scope.registrationHours = '0';
             $scope.registrationText = '';
         }
         else if (key.keyCode === 13) {
