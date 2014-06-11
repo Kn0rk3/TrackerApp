@@ -35,7 +35,7 @@
         {
             <div class="form-group">
                 <label for="Url">TimeLog Project url:</label>
-                @Html.TextBox("Url", (string)ViewBag.Url, new { @class = "form-control" })
+                @Html.TextBox("Url", (string)ViewBag.Url, new { @class = "form-control", placeholder = "http://*.timelog.*/shortname" })
             </div>
             <div class="form-group">
                 <label for="Initials">Initials:</label>
